@@ -37,9 +37,6 @@
         $dbh = null;
     }
 
-    //取得したデータを表示
-        $blogData = getAllBlog();
-
     //カテゴリー名を表示
     //引数：数字
     //返り値：カテゴリの文字列
@@ -58,31 +55,31 @@
             return 'その他';
         }
     }
-?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewpoint" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie-edge">
-    <title>ブログ一覧</title>
-</head>
-<body>
-    <h2>ブログ一覧</h2>
-    <table>
-        <tr>
-            <th>No</th>
-            <th>タイトル</th>
-            <th>カテゴリ</th>
-        </tr>
-        <?php foreach ($blogData as $column): ?>
-        <tr>
-            <td><?php echo $column['id'] ?></td>
-            <td><?php echo $column['title'] ?></td>
-            <td><?php echo setCategoryName($column['category']) ?></td>
-        </tr>
-        <?php endforeach;?>
-    </table>
-</body>
-</html>
+//    引数：$id
+//    返り値：$result
+    function getBlog($id)
+    {
+        if (empty($id))
+        {
+            exit('IDが不正です');
+        }
+
+        $dbh = dbConnect();
+
+//    SQL準備
+        $stmt = $dbh->prepare('SELECT * FROM blog Where id = :id');
+        $stmt->bindValue(':id',(int)$id,PDO::PARAM_INT);
+//    SQL実行
+        $stmt->execute();
+//    結果を取得
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$result)
+        {
+            exit('ブログがありません。');
+        }
+
+        return $result;
+    }
+?>
