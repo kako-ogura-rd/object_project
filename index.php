@@ -1,8 +1,9 @@
 <?php
-    require_once 'dbc.php';
-
+    require_once 'blog.php';
+    //ini_set('display_errors','On');
+    $blog = new Blog();
     //取得したデータを表示
-    $blogData = getAllBlog();
+    $blogData = $blog->getAll();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,6 +15,7 @@
 </head>
 <body>
 <h2>ブログ一覧</h2>
+<p><a href="/project1/form.html">新規作成</a></p>
 <table>
     <tr>
         <th>No</th>
@@ -24,7 +26,7 @@
         <tr>
             <td><?php echo $column['id'] ?></td>
             <td><?php echo $column['title'] ?></td>
-            <td><?php echo setCategoryName($column['category']) ?></td>
+            <td><?php echo $blog->setCategoryName($column['category']) ?></td>
             <td><a href="/project1/detail.php?id=<?php echo $column['id']?>">詳細</a></td>
         </tr>
     <?php endforeach;?>
