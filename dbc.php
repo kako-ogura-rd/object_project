@@ -1,6 +1,6 @@
 <?php
 
-
+    require_once 'env.php';
 
     Class Dbc
     {
@@ -11,10 +11,11 @@
         //返り値：接続結果を返す
         protected function dbConnect()
         {
-            $dbn = 'mysql:host=localhost;dbname=blog_app;charset=utf8';
-            $user = 'blog_user';
-            $pass = 'Jsb24830';
-
+            $host = DB_HOST;
+            $dbname = DB_NAME;
+            $user = DB_USER;
+            $pass = DB_PASS;
+            $dbn = "mysql:host=$host;dbname=$dbname;charset=utf8";
             try {
                 $dbh = new PDO($dbn,$user,$pass,[
                     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -67,6 +68,24 @@
                 exit('ブログがありません。');
             }
 
+            return $result;
+        }
+
+        public function delete($id)
+        {
+            if (empty($id))
+            {
+                exit('IDが不正です');
+            }
+
+            $dbh = $this->dbConnect();
+
+            //    SQL準備
+            $stmt = $dbh->prepare("DELETE FROM $this->table_name Where id = :id");
+            $stmt->bindValue(':id',(int)$id,PDO::PARAM_INT);
+            //    SQL実行
+            $result = $stmt->execute();
+            echo 'ブログを削除しました';
             return $result;
         }
 
