@@ -4,6 +4,10 @@
     $blog = new Blog();
     //取得したデータを表示
     $blogData = $blog->getAll();
+    function h($s)
+    {
+        return htmlspecialchars($s,ENT_QUOTES,"UTF-8");
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,17 +22,18 @@
 <p><a href="/project1/form.html">新規作成</a></p>
 <table>
     <tr>
-        <th>No</th>
         <th>タイトル</th>
         <th>カテゴリ</th>
+        <th>投稿日時</th>
     </tr>
     <?php foreach ($blogData as $column): ?>
         <tr>
-            <td><?php echo $column['id'] ?></td>
-            <td><?php echo $column['title'] ?></td>
-            <td><?php echo $blog->setCategoryName($column['category']) ?></td>
+            <td><?php echo h($column['title']) ?></td>
+            <td><?php echo h($blog->setCategoryName($column['category'])) ?></td>
+            <td><?php echo h($column['post_at']) ?></td>
             <td><a href="/project1/detail.php?id=<?php echo $column['id']?>">詳細</a></td>
             <td><a href="/project1/update_form.php?id=<?php echo $column['id']?>">編集</a></td>
+            <td><a href="/project1/blog_delete.php?id=<?php echo $column['id']?>">削除</a></td>
         </tr>
     <?php endforeach;?>
 </table>
