@@ -6,3 +6,4 @@
     $blog->blogValidate($blogs);
     $blog->blogCreate($blogs);
 ?>
+<p><a href="/project1/">戻る</a></p>

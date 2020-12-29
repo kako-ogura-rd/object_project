@@ -8,3 +8,4 @@ $blog->blogValidate($blogs);
 $blog->blogUpdate($blogs);
 
 ?>
+<p><a href="/project1/">戻る</a></p>
